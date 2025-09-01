@@ -1,6 +1,12 @@
-const OpenAI = require('openai');
-
 export default async function handler(req, res) {
+  // Import OpenAI - handle both CommonJS and ES modules
+  let OpenAI;
+  try {
+    const openaiModule = await import('openai');
+    OpenAI = openaiModule.default || openaiModule.OpenAI || openaiModule;
+  } catch (e) {
+    OpenAI = require('openai');
+  }
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
