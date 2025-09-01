@@ -90,7 +90,7 @@ const ChipReference: React.FC = () => {
           <div className="mt-3 text-xs text-blue-600 space-y-1">
             <p>💡 <strong>Tip:</strong> CHIP notation uses a structured format:</p>
             <p><strong>Line 1:</strong> Header (blinds, ante, players, button)</p>
-            <p><strong>Line 2:</strong> Stacks (UTG → BB order)</p>
+            <p><strong>Line 2:</strong> Stacks (in seat order)</p>
             <p><strong>Line 3+:</strong> Actions, cards, and hole cards</p>
             <p>Stacks persist across hands unless explicitly updated.</p>
           </div>
