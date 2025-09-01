@@ -14,19 +14,19 @@ A web application that integrates `chip-parser` and provides a user-friendly int
 
 ```
 chip-web/
-├── backend/          # Node.js Express API server
-│   ├── server.js     # Main server file with chip-parser integration
-│   └── package.json  # Backend dependencies
-├── frontend/         # React + Vite frontend
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ChipReference.tsx    # CHIP notation cheat sheet
-│   │   │   ├── ChipInput.tsx        # CHIP input with live parsing
-│   │   │   └── GptInteraction.tsx   # GPT API integration
-│   │   ├── App.tsx   # Main application component
-│   │   └── main.tsx  # React entry point
-│   └── package.json  # Frontend dependencies
-└── package.json      # Root package with dev scripts
+├── api/              # Vercel serverless functions
+│   ├── parse-chip.js # CHIP notation parsing endpoint
+│   ├── ask-gpt.js    # OpenAI GPT integration endpoint
+│   └── health.js     # Health check endpoint
+├── src/
+│   ├── components/
+│   │   ├── ChipReference.tsx    # CHIP notation cheat sheet
+│   │   ├── ChipInput.tsx        # CHIP input with live parsing
+│   │   └── GptInteraction.tsx   # GPT API integration
+│   ├── App.tsx       # Main application component
+│   └── main.tsx      # React entry point
+├── package.json      # All dependencies
+└── vite.config.ts    # Vite configuration
 ```
 
 ## Setup Instructions
@@ -39,46 +39,28 @@ chip-web/
 
 ### Installation
 
-1. **Install root dependencies:**
+1. **Install dependencies:**
    ```bash
    npm install
-   ```
-
-2. **Install backend dependencies:**
-   ```bash
-   cd backend
-   npm install
-   cd ..
-   ```
-
-3. **Install frontend dependencies:**
-   ```bash
-   cd frontend
-   npm install
-   cd ..
    ```
 
 ### Running the Application
 
-**Option 1: Run both frontend and backend simultaneously (recommended)**
+**Development:**
 ```bash
 npm run dev
 ```
 
-This will start:
-- Backend server on `http://localhost:3001`
-- Frontend development server on `http://localhost:3000`
+This will start the Vite development server on `http://localhost:3000`
 
-**Option 2: Run separately**
-
-Backend:
+**Production build:**
 ```bash
-npm run server
+npm run build
 ```
 
-Frontend:
+**Preview production build:**
 ```bash
-npm run client
+npm run preview
 ```
 
 ### Usage
@@ -106,12 +88,12 @@ npm run client
 
 ## API Endpoints
 
-### Backend (`http://localhost:3001`)
+### Vercel Functions
 
 - `POST /api/parse-chip` - Parse CHIP notation
   ```json
   {
-    "chipNotation": "UTG: AhKh\npreflop: r100"
+    "chipNotation": "25 50 10 6 6\n12.5k 25k 10k 25k 25k 15k\nf f 150 f c c"
   }
   ```
 
@@ -195,3 +177,4 @@ npm run build  # Builds frontend only
 ## License
 
 MIT License
+
