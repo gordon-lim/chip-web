@@ -1,46 +1,197 @@
-# Getting Started with Create React App
+# CHIP → GPT Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application that integrates `chip-parser` and provides a user-friendly interface for working with CHIP notation and querying GPT for poker advice.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **CHIP Notation Reference**: Collapsible cheat sheet with official CHIP notation reference
+- **Live Parsing**: Real-time CHIP notation parsing with graceful error handling
+- **GPT Integration**: Get AI-powered poker recommendations based on parsed hand history
+- **Two-Column Layout**: Clean separation between CHIP input and GPT interaction
+- **Responsive Design**: Works on desktop and mobile devices
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+chip-web/
+├── backend/          # Node.js Express API server
+│   ├── server.js     # Main server file with chip-parser integration
+│   └── package.json  # Backend dependencies
+├── frontend/         # React + Vite frontend
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ChipReference.tsx    # CHIP notation cheat sheet
+│   │   │   ├── ChipInput.tsx        # CHIP input with live parsing
+│   │   │   └── GptInteraction.tsx   # GPT API integration
+│   │   ├── App.tsx   # Main application component
+│   │   └── main.tsx  # React entry point
+│   └── package.json  # Frontend dependencies
+└── package.json      # Root package with dev scripts
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Setup Instructions
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v16 or higher)
+- npm or yarn
+- OpenAI API key
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Install root dependencies:**
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Install backend dependencies:**
+   ```bash
+   cd backend
+   npm install
+   cd ..
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Install frontend dependencies:**
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
 
-### `npm run eject`
+### Running the Application
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Option 1: Run both frontend and backend simultaneously (recommended)**
+```bash
+npm run dev
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This will start:
+- Backend server on `http://localhost:3001`
+- Frontend development server on `http://localhost:3000`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Option 2: Run separately**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Backend:
+```bash
+npm run server
+```
 
-## Learn More
+Frontend:
+```bash
+npm run client
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Usage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Open your browser** to `http://localhost:3000`
+
+2. **Review the CHIP Reference** (collapsible cheat sheet at the top)
+
+3. **Enter CHIP Notation** in the left column textarea. Examples:
+   ```
+   UTG: AhKh
+   preflop: r100
+   BTN: c
+   flop: AhKcQd
+   UTG: b50
+   ```
+
+4. **View Parsed Output** - automatically updates as you type
+
+5. **Enter your OpenAI API Key** in the right column (stored in memory only)
+
+6. **Customize the System Prompt** if needed
+
+7. **Click "Ask GPT"** to get AI-powered poker advice
+
+## API Endpoints
+
+### Backend (`http://localhost:3001`)
+
+- `POST /api/parse-chip` - Parse CHIP notation
+  ```json
+  {
+    "chipNotation": "UTG: AhKh\npreflop: r100"
+  }
+  ```
+
+- `POST /api/ask-gpt` - Get GPT recommendations
+  ```json
+  {
+    "apiKey": "sk-...",
+    "systemPrompt": "You are a poker assistant...",
+    "parsedChip": { /* parsed hand data */ }
+  }
+  ```
+
+- `GET /api/health` - Health check
+
+## Security Notes
+
+- **API Key Storage**: OpenAI API keys are never persisted or logged - they're stored in memory only during the session
+- **CORS**: Backend is configured to accept requests from the frontend only
+- **Input Validation**: All API endpoints validate input parameters
+
+## Development
+
+### Frontend Development
+```bash
+cd frontend
+npm run dev
+```
+
+### Backend Development
+```bash
+cd backend
+npm run dev  # Uses nodemon for auto-reload
+```
+
+### Building for Production
+```bash
+npm run build  # Builds frontend only
+```
+
+## Dependencies
+
+### Backend
+- `express` - Web framework
+- `cors` - CORS middleware
+- `chip-parser` - CHIP notation parsing
+- `openai` - OpenAI API client
+- `dotenv` - Environment variables
+
+### Frontend
+- `react` - UI framework
+- `typescript` - Type safety
+- `tailwindcss` - CSS framework
+- `axios` - HTTP client
+- `vite` - Build tool
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"chip-parser not found"**
+   - Make sure you've installed backend dependencies: `cd backend && npm install`
+
+2. **"API connection failed"**
+   - Ensure backend is running on port 3001
+   - Check that frontend proxy is configured correctly in `vite.config.ts`
+
+3. **"Invalid API key"**
+   - Verify your OpenAI API key starts with `sk-`
+   - Check your OpenAI account has sufficient credits
+
+4. **Parse errors**
+   - CHIP notation is case-sensitive
+   - Refer to the built-in reference guide for correct syntax
+
+### Development Tips
+
+- Use browser dev tools to monitor network requests
+- Backend logs are shown in the terminal running the server
+- Frontend errors appear in browser console
+
+## License
+
+MIT License
