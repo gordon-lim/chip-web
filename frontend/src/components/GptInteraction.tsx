@@ -30,8 +30,7 @@ const GptInteraction: React.FC<GptInteractionProps> = ({ parsedChip }) => {
     setGptResponse('');
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '/api';
-      const response = await axios.post(`${apiUrl}/ask-gpt`, {
+      const response = await axios.post('/api/ask-gpt', {
         apiKey: apiKey.trim(),
         systemPrompt: systemPrompt.trim(),
         parsedChip

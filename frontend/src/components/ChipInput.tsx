@@ -26,8 +26,7 @@ const ChipInput: React.FC<ChipInputProps> = ({ onParsedChange }) => {
 
     setIsLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '/api';
-      const response = await axios.post(`${apiUrl}/parse-chip`, {
+      const response = await axios.post('/api/parse-chip', {
         chipNotation: notation
       });
       
