@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const ChipReference: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

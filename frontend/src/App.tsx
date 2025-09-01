@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ChipReference from './components/ChipReference';
 import ChipInput from './components/ChipInput';
 import GptInteraction from './components/GptInteraction';
